@@ -35,6 +35,9 @@ class validators:
     
     def validateTime(self):
         # checks if interview is scheduled in the past time
+        # also if the time mentioned is correct or not
+        if self.startTime > self.endTime:
+            self.valid(False)
         currentTime = datetime.datetime.now()
         if self.startTime < currentTime or self.endTime < currentTime:
             self.valid(False)

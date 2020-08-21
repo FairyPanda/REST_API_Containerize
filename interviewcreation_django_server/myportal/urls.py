@@ -6,4 +6,4 @@ urlpatterns = [
     path('manageInterviews/<int:pk>/', views.manageInterviewsDetail.as_view()),
     path('manageusers/', views.manageusersList.as_view()),
     path('manageusers/<int:pk>/', views.manageusersDetail.as_view()),
-]
+] 

@@ -1,11 +1,9 @@
 from .serializers import InterviewDetailsSerializer
 from .serializers import UserDetailsSerializer
 from rest_framework import generics
-
-
+from .models import UserDetails, InterviewDetails
 
 # assuming that currently admin users are only accessing the website
-
 
 class manageInterviewsList(generics.ListCreateAPIView):
     queryset = InterviewDetails.objects.all()
