@@ -4,22 +4,23 @@ from rest_framework import generics
 from rest_framework.parsers import JSONParser
 from .models import UserDetails, InterviewDetails
 from django.http import HttpResponse, JsonResponse
-import pytz
+import pytz, datetime
+# assuming that currently admin users are only accessing the website
 
-# assuming that currently admin users are only accessing the api
-
+    
 def getInterviewsbyusers(request, pk):
-    queryset = InterviewDetails.objects.filter(participants = int(pk))
-    if queryset.count() == 0:
-        return HttpResponse(status = 400)
-    serializer = InterviewDetailsSerializer(queryset)
-    return JsonResponse(serializer.data)
-        
+        currentTime = datetime.datetime.now().replace(tzinfo=pytz.UTC)
+        print(currentTime)
+        queryset =  InterviewDetails.objects.filter(participants = pk, endTime__gte = currentTime).order_by('startTime')
+        serializer = InterviewDetailsSerializer(queryset , many = True)
+        return JsonResponse(serializer.data, safe = False)
+
 class manageInterviewsList(generics.ListCreateAPIView):
-    queryset = InterviewDetails.objects.all()
+    currentTime = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)
+    queryset = InterviewDetails.objects.filter(endTime__gte = currentTime).order_by('startTime')
     serializer_class = InterviewDetailsSerializer
 
-class manageInterviewsDetail(generics.RetrieveUpdateDestroyAPIView):
+class manageInterviewsDetail(generics.RetrieveUpdateDestroyAPIView): 
     queryset = InterviewDetails.objects.all()
     serializer_class = InterviewDetailsSerializer
     

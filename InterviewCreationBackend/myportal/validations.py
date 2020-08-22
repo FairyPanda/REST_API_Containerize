@@ -9,6 +9,7 @@ class validators:
         self.participants = participants
         self.valid = True
         self.errorMessage = ""
+        self.leastParticipantsAllowed = 2
     
     
     def isvalid(self):
@@ -27,15 +28,21 @@ class validators:
             self.errorMessage = self.errorMessage + ', ' + message 
         
     def validateParticipants(self):
+        # checking if the user dont have overlapping inerviews interview
         for user in self.participants:
-            # checking if the user dont have overlapping inerviews interview
             scheduledInterviews = InterviewDetails.objects.filter(participants = user)
-            
             if self.checkOverlapping(scheduledInterviews) == False:
                 self.setvalid(False)
                 self.appendErrorMessage("User with userId = "+str(user.id)+" has overlapping Interviews")
+                
+    def validateCountofParticipants(self):
+        #checking if there are less than 2 participants
+        if len(self.participants < self.leastParticipantsAllowed):
+            self.setvalid(False)
+            self.appendErrorMessage("There must be at least 2 users")
 
     def checkOverlapping(self, Interviews):
+        #checking overlaps
         for slot in Interviews:
             if slot.startTime >= self.endTime or slot.endTime <= self.startTime:
                 continue
@@ -48,8 +55,9 @@ class validators:
         if self.startTime > self.endTime:
             self.setvalid(False)
             self.appendErrorMessage("Start Time can't be > End Time")
+            
         # checks if interview is scheduled in the past time
-        currentTime = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)
+        currentTime = datetime.datetime.now().replace(tzinfo=pytz.UTC)
         if self.startTime < currentTime or self.endTime < currentTime:
             self.setvalid(False)
             self.appendErrorMessage("Interviews in the past can't be scheduled")

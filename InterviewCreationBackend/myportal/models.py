@@ -17,7 +17,8 @@ class InterviewDetails(models.Model):
     endTime = models.DateTimeField(blank = False)
     participants = models.ManyToManyField( UserDetails )
     
-    # def __str__(self):
-    #     return str(self.startTime) + " to " + str(self.endTime)
+    def __str__(self):
+        return str(self.startTime) + " to " + str(self.endTime)
+    
 
 

@@ -12,6 +12,7 @@ class InterviewDetailsSerializer(serializers.ModelSerializer):
         validateObj = validators(attrs["startTime"], attrs["endTime"], attrs["participants"])
         validateObj.validateTime()
         validateObj.validateParticipants()
+        validateObj.validateCountofParticipants()
         
         if validateObj.isvalid() == False:
             raise APIException(validateObj.getErrorMessage())
