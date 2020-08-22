@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 
-import AutoSuggester from './AutoSuggester'
+import AddParticipants from './AddParticipants'
 import EditParticipant from './EditParticipant'
 import InterviewDetails from './GetInterview'
 import UserDetails from './GetUsers'
@@ -15,30 +15,22 @@ export class EditPage extends Component {
                 endTime : "",
                 participants : []
             },
-            userCache : {},
+            userCache : [],
+            userDict : {},
         }
         this.UpdateParticipants = this.UpdateParticipants.bind(this);
-        this.AddParticipant = this.AddParticipant.bind(this);
     }
-    
     
     UpdateParticipants(newParticipants){
         var NewSchedule = this.state.ScheduledInterview;
         NewSchedule.participants = newParticipants;
         this.setState({
             ScheduledInterview : NewSchedule
+        },()=>{
+            console.log(this.state.ScheduledInterview.participants);
         })
     }
 
-    AddParticipant(newParticipant){
-        // already present
-        var oldParticipants = this.state.ScheduledInterview.participants;
-        for(var i=0;i<oldParticipants.length();i++){
-            if(oldParticipants[i] == newParticipant)return;
-        }
-        var newParticipants = oldParticipants.push(newParticipant);
-        this.UpdateParticipants(newParticipants);
-    }
 
     componentDidMount(){
         var InterviewObj = new InterviewDetails();
@@ -53,7 +45,7 @@ export class EditPage extends Component {
         });
         
         UserObj.Getallusers((Users) => {
-            this.setState({  userCache : Users })
+            this.setState({  userCache : Users["list"] , userDict : Users["Dictionary"] })
         });
 
     }
@@ -83,19 +75,29 @@ export class EditPage extends Component {
                     <br/><br/>
                 </div>
                 
+                Selected participants:
+                <br/> <br/>
+
                 <EditParticipant 
-                    userCache = {this.state.userCache}
-                    ParticipantList = {this.state.ScheduledInterview.participants} 
+                    userDict = {this.state.userDict}
+                    ParticipantIdList = {this.state.ScheduledInterview.participants} 
                     UpdateParticipants = {this.UpdateParticipants}/>
 
-                {/* <AutoSuggester 
+                <br/> <br/>
+
+                All participants:
+                <br/> <br/>
+
+                <AddParticipants 
                     userCache = {this.state.userCache}
-                    AddParticipant = {this.AddParticipant}/> */}
-                <br/>
-                <br/>
-                <br/>
-                <br/>
+                    ParticipantIdList = {this.state.ScheduledInterview.participants}
+                    UpdateParticipants = {this.UpdateParticipants}/>
+                
+
+                <br/> <br/> <br/> <br/>
+
                 <button className="btn btn-primary">Confirm editing</button>
+                
                 </div>
             </div>
         )

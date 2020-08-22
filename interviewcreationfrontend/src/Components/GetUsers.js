@@ -9,10 +9,11 @@ export default class UserDetails{
         axios.get(process.env.REACT_APP_ManageUsers)
         .then( response => {
             var Users = {};
+            var UserList = response.data;
             response.data.map( data => {
                 Users[data.id] = data;
             })
-            callback(Users);
+            callback({"Dictionary" : Users , "list" : UserList});
         })
         .catch(function (error) {
             alert(error); 
@@ -33,12 +34,14 @@ export default class UserDetails{
     // Gives users as dictionary id => object
     GetuserbyArray(UserList, callback){
         var users = {};
+        var userList = [];
         UserList.map( userId =>{
             this.Getuser(userId, (User)=> {
                 users[User.id] = User
+                userList.push(User);
             })
         })
-        callback(users);
+        callback({"Dictionary" : users , "list" : UserList});
     }
     
 }

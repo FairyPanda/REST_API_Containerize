@@ -128,3 +128,11 @@ button{
   cursor:pointer;
   background-color: #B39DB6;
 }
+.expandFULL{
+  width:80%;
+}
+.normal{
+  margin-left: 2%;
+  width:auto;
+  position: static;
+}
