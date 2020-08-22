@@ -32,7 +32,7 @@ export class AddParticipants extends Component {
     
     render() {
         return (
-            <div class="mainbody">
+            <div className="mainbody">
                 <ParticipantTable 
                     label = "Add Participant"
                     ParticipantList = {    

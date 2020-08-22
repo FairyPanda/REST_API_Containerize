@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 
 import InterviewForm from './InterviewForm'
-import InterviewDetails from './GetInterview'
+import InterviewDetails from './InterviewDetails'
+
+import {Redirect} from "react-router-dom";
+
 
 export class FindPage extends Component {
     constructor(props) {
@@ -10,7 +13,8 @@ export class FindPage extends Component {
             Interview : {
                 startTime : "",
                 endTime : "",
-                participants : []
+                participants : [],
+                deleted : false
             },
         }
         this.editFunction = this.editFunction.bind(this);
@@ -18,28 +22,31 @@ export class FindPage extends Component {
     }
 
     deleteFunction(){
-
+        var InterviewObj = new InterviewDetails();
+        InterviewObj.DeleteSchedule(this.props.match.params.id, (isSuccessfull)=>{
+            this.setState({ deleted : isSuccessfull });
+        });
     }
     
     editFunction(Interview){
-        
+        var InterviewObj = new InterviewDetails();
+        InterviewObj.UpdateSchedule(this.props.match.params.id, Interview);
     }
 
     componentDidMount(){
         var InterviewObj = new InterviewDetails();
-    
         InterviewObj.GetSchedule(this.props.match.params.id,  (Interview) => {
-            
             Interview.startTime = Interview.startTime.substr(0,Interview.startTime.length-1);
             Interview.endTime = Interview.endTime.substr(0,Interview.endTime.length-1);
-    
             this.setState({ Interview : Interview })
         });
     }
 
     render() {
+            if(this.state.deleted) return <Redirect to="/" />
         return (
             <div>
+                
                 <h1>Admin panel : Edit interview</h1>
                 <br/>
                 <button className="btn btn-primary right expandFULL100" 

@@ -37,7 +37,7 @@ class validators:
                 
     def validateCountofParticipants(self):
         #checking if there are less than 2 participants
-        if len(self.participants < self.leastParticipantsAllowed):
+        if len(self.participants) < self.leastParticipantsAllowed:
             self.setvalid(False)
             self.appendErrorMessage("There must be at least 2 users")
 

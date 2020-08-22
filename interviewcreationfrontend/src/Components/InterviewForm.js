@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 
 import AddParticipants from './AddParticipants'
 import EditParticipant from './EditParticipant'
-import UserDetails from './GetUsers'
+import UserDetails from './UserDetails'
 
 
 export class InterviewForm extends Component {
@@ -89,7 +89,8 @@ export class InterviewForm extends Component {
                 <br/> <br/>
                 
                 <div>
-                <button className="btn btn-primary right expandFULL100" onClick={this.props.buttonFunction}>{this.props.buttonStatement}</button>
+                <button className="btn btn-primary right expandFULL100" 
+                    onClick={() => this.props.buttonFunction(this.state.Interview)}>{this.props.buttonStatement}</button>
                 </div>
 
                 <br/> <br/>
@@ -98,5 +99,5 @@ export class InterviewForm extends Component {
         )
     }
 }
-
+ 
 export default InterviewForm

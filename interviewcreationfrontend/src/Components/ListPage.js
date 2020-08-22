@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
 import {NavLink} from "react-router-dom"; 
-import InterviewDetails from './GetInterview'
-import UserDetails from './GetUsers'
+import InterviewDetails from './InterviewDetails'
+import UserDetails from './UserDetails'
 import RowInfo from './RowInfo';
 
 

@@ -12,7 +12,7 @@ export class RowInfo extends Component {
                 <td>{this.props.Interview.endTime}</td>
                 <td>
 
-                <div class="form-group">
+                <div className="form-group">
                     <select  className="form-control marginonTop"
                         id = {selectfielId}
                         onChange = {(e)=> {
