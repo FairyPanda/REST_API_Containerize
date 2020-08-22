@@ -6,27 +6,44 @@ export class AddParticipants extends Component {
     constructor(props) {
         super(props)
         this.AddParticipantFunction = this.AddParticipantFunction.bind(this);
+        this.Useralreadyexists = this.Useralreadyexists.bind(this);
     }
     
     AddParticipantFunction(newParticipant){
         // already present
-        var oldParticipantsIdList = this.props.ParticipantIdList;
-        for(var i=0;i<oldParticipantsIdList.length;i++){
-            if(oldParticipantsIdList[i] == newParticipant.id){
-                alert("Already Selected");
-                return;
-            }
+        if(this.Useralreadyexists(newParticipant.id)){
+            alert("already selected");
+            return;
         }
-        oldParticipantsIdList.push(newParticipant.id);
-        var newParticipantsIdList = oldParticipantsIdList;
+        var newParticipantsIdList = this.props.ParticipantIdList;
+        newParticipantsIdList.push(newParticipant.id);
         this.props.UpdateParticipants(newParticipantsIdList);
     }
+
+    Useralreadyexists(UserId){
+        for(var i=0;i<this.props.ParticipantIdList.length;i++){
+            if(this.props.ParticipantIdList[i] == UserId){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     
     render() {
         return (
             <div class="mainbody">
                 <ParticipantTable 
-                    ParticipantList = {this.props.userCache}
+                    label = "Add Participant"
+                    ParticipantList = {    
+                        this.props.userCache.map( user =>{
+                        if(this.Useralreadyexists(user.id) == false){
+                            return user;
+                        }
+                        else{
+                            return 
+                        }
+                    })}
                     OperationFunction = {this.AddParticipantFunction}
                     operationStatement = {"Add"}
                 />

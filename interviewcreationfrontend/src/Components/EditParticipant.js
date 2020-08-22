@@ -24,6 +24,7 @@ export class EditParticipant extends Component {
         return (
             <div> 
                 <ParticipantTable 
+                    label = "Selected Participants"
                     ParticipantList = {this.props.ParticipantIdList.map( Id =>{
                         return this.props.userDict[Id]
                     })}

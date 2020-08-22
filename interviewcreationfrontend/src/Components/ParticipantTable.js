@@ -1,30 +1,38 @@
 import React, { Component } from 'react'
 
 export class ParticipantTable extends Component {
+    constructor(props) {
+        super(props)
+        
+    }
+    
     render() {
-        return (
-            <div>
-                 <table>
-                    <thead>
-                        <tr>
-                            <th>Participant Id</th>
-                            <th>Participant username</th>
-                            <th>Participant coloumn</th>
-                            <th>{this.props.operationStatement} Participant</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.props.ParticipantList.map( (Participant) => 
-                            <ParticipantRow 
-                                key={Participant.id} 
-                                participant = {Participant}
-                                OperationFunction = {this.props.OperationFunction}
-                                operationStatement = {this.props.operationStatement}
-                            />
-                        )}
-                    </tbody>
-                </table>
-            </div>
+        return( 
+        <div>
+            <label>{this.props.label}</label>
+            <table  className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Participant Id</th>
+                        <th>Participant username</th>
+                        <th>Participant coloumn</th>
+                        <th>{this.props.operationStatement} Participant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.props.ParticipantList.map( (Participant) => {
+                        if(typeof(Participant) != "undefined")
+                    return <ParticipantRow 
+                            key={Participant.id} 
+                            participant = {Participant}
+                            OperationFunction = {this.props.OperationFunction}
+                            operationStatement = {this.props.operationStatement}
+                        />
+                    }
+                    )}
+                </tbody>
+            </table>
+        </div>
         )
     }
 }

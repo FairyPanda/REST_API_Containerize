@@ -34,7 +34,7 @@ export class ListPage extends Component {
             <div className = "App">
                 <h1>Admin panel : Upcoming Interviews</h1>
                 <br/>
-                <button><NavLink to="/create">Schedule new interview</NavLink></button>
+                <NavLink to="/create"><button className="btn btn-primary right expandFULL100" >Schedule new interview</button></NavLink>
                 <br/>
                 <table>
                     <thead>

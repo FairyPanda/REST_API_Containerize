@@ -10,9 +10,8 @@
 }
 .App {
   background-color: #282c34;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
-  overflow: hidden;
   flex-direction: column;
   /* justify-content: center; */
   color: white;
@@ -51,36 +50,6 @@ table{
   width : 100%;
 }
 
-td{
-  text-align: center;
-}
-
-td:hover{
-  background-color: #B5B4F5;
-  text-decoration: none;
-}
-
-tr:nth-child(even) {
-  background-color: #eee;
-}
-tr:nth-child(odd) {
- background-color: #fff;
-}
-
-th{
-  background-color: #282c34;
-  color : #fff;
-}
-
-.sameline{
-  display:inline-block
-}
-.mr{
-  margin-right: 2%;
-}
-.mb{
-  margin-bottom: 2%;
-}
 .leftside{
   position: absolute;
   left: 3%;
@@ -90,36 +59,10 @@ th{
   right: 3%;
 }
 
-html {
-  overflow: scroll;
-  overflow-x: hidden;
-}
-::-webkit-scrollbar {
-  width: 0px;  /* Remove scrollbar space */
-  background: transparent;  /* Optional: just make scrollbar invisible */
-}
-/* Optional: show position indicator in red */
-::-webkit-scrollbar-thumb {
-  background: #FF0000;
+td{
+  text-align:center;
 }
 
-.initialentry{
-  min-height: 68vh; 
-  margin-bottom: 5px;
-}
-
-select{
-  width:100%;
-}
-button{
-  background: #B39DB6;
-  border-radius: 5px;
-  width: 20%;
-  cursor:pointer;
-  position: relative;
-  left:80%;
-  height:5%;
-}
 .expandInputboxes{
   margin-left:2%;
   width:80%;
@@ -131,8 +74,11 @@ button{
 .expandFULL{
   width:80%;
 }
-.normal{
-  margin-left: 2%;
-  width:auto;
-  position: static;
+.expandFULL100{
+  width:100%;
+  margin:0px 0px 0px 0px;
+}
+.onleft{
+  position:relative;
+  right:80%
 }
