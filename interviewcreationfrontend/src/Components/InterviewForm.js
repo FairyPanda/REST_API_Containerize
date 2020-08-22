@@ -11,9 +11,9 @@ export class InterviewForm extends Component {
         super(props)
         this.state = {
             Interview : {
-                startTime : this.props.Interview.startTime,
-                endTime : this.props.Interview.endTime,
-                participants : this.props.Interview.participants
+                startTime : "",
+                endTime : "",
+                participants : []
             },
             userCache : [],
             userDict : {},
@@ -36,6 +36,8 @@ export class InterviewForm extends Component {
 
 
     render() {
+        if(this.props.Interview.startTime != "" && this.state.Interview.startTime == "")
+            this.setState({Interview : this.props.Interview})
         return (
             <div>
                 <div className="mainbody">
@@ -60,7 +62,6 @@ export class InterviewForm extends Component {
                         value = {this.state.Interview.endTime}
                     />
                 </div>
-                
                 
                 <br/>
                 

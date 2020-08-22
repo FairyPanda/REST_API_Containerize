@@ -13,10 +13,15 @@ export class FindPage extends Component {
                 participants : []
             },
         }
-        this.buttonFunction = this.buttonFunction.bind(this);
+        this.editFunction = this.editFunction.bind(this);
+        this.deleteFunction = this.deleteFunction.bind(this);
+    }
+
+    deleteFunction(){
+
     }
     
-    buttonFunction(Interview){
+    editFunction(Interview){
         
     }
 
@@ -36,9 +41,13 @@ export class FindPage extends Component {
         return (
             <div>
                 <h1>Admin panel : Edit interview</h1>
+                <br/>
+                <button className="btn btn-primary right expandFULL100" 
+                    onClick={this.deleteFunction}>Delete Schedule</button>
+                <br/><br/>
                 <InterviewForm
                     Interview = {this.state.Interview}
-                    buttonFunction = {this.buttonFunction}
+                    buttonFunction = {this.editFunction}
                     buttonStatement = {"Reschedule Interview"}
                 />
             </div>
