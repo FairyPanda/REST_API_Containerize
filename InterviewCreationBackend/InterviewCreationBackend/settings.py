@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'myportal.apps.MyportalConfig',
-    'rest_framework', 
+    'rest_framework',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -88,11 +88,11 @@ WSGI_APPLICATION = 'InterviewCreationBackend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'InterviewCreationDatabase',
-        'USER':'postgres',
+        'NAME': 'InterviewCreationDatabase',
+        'USER': 'postgres',
         'PASSWORD': '123454321',
-        'PORT':'5432',
-        'HOST':'localhost',
+        'PORT': '5432',
+        'HOST': 'localhost',
     }
 }
 
@@ -136,3 +136,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST_USER = 'aakashsharmajc100@gmail.com'
+EMAIL_HOST_PASSWORD = 'qjvojiswtiktofcb'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+# EMAIL_HOST_USER = os.environ.get('EM_EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = os.environ.get('EM_EMAIL_HOST_PASSWORD')
