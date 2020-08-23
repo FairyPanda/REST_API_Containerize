@@ -5,7 +5,7 @@ This is a portal for scheduling Interview between candidates
 Deployed frontend : https://afternoon-escarpment-58999.herokuapp.com/
 =>single paged react app
 
-Deployed backtend: https://blooming-beyond-14533.herokuapp.com/ 
+Deployed backend: https://blooming-beyond-14533.herokuapp.com/ 
 =>Django server
 
 There are 5 rest api endpoints
