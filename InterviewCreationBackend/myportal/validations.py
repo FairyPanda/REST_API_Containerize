@@ -13,13 +13,6 @@ class validators:
         self.errorMessage = ""
         self.leastParticipantsAllowed = 2
 
-        Interview = InterviewDetails.objects.filter(
-            startTime=self.startTime, endTime=self.endTime, participants=self.participants[0])
-        if Interview.count() > 0:
-            self.id = Interview[0].id
-        else:
-            self.id = -1
-
     def isvalid(self):
         return self.valid
 
@@ -41,7 +34,7 @@ class validators:
             scheduledInterviews = InterviewDetails.objects.filter(
                 participants=user)
             for interview in scheduledInterviews:
-                if self.id != interview.id and self.checkOverlapping(interview) == False:
+                if self.checkOverlapping(interview) == False:
                     self.setvalid(False)
                     self.appendErrorMessage(
                         "User with userId = "+str(user.id)+" has overlapping Interviews")

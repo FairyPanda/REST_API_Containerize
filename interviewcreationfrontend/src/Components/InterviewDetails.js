@@ -45,7 +45,7 @@ export default class InterviewDetails {
             })
     }
 
-    UpdateSchedule(InterviewId, InterviewSchedule) {
+    UpdateSchedule(InterviewId, InterviewSchedule, callback) {
         axios({
             method: 'put',
             url: process.env.REACT_APP_ManageInterviewsAPI + InterviewId + '/',
@@ -53,7 +53,7 @@ export default class InterviewDetails {
         })
             .then(response => {
                 alert("Successfuly updated");
-                // callback(response.data);
+                callback(true);
             })
             .catch(function (error) {
                 error = JSON.stringify(error.response.data);
