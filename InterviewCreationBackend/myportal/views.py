@@ -48,12 +48,12 @@ def manageInterviewsList(request):
         serializer = InterviewDetailsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-
             newData = serializer.data
+
+            # For sending emails
             Notifyobj = Notify()
-            isSuccessfull = Notifyobj.SendNewInvitation(
+            Notifyobj.SendNewInvitation(
                 newData["participants"], newData["startTime"], newData["endTime"])
-            print(isSuccessfull)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -76,52 +76,29 @@ def manageInterviewsDetail(request, pk):
         serializer = InterviewDetailsSerializer(Interview)
         oldData = serializer.data
         Interview.delete()
-
         serializer = InterviewDetailsSerializer(Interview, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
 
-            Notifyobj = Notify()
-
+            # for seprating deleted, new and common participants
             newData = serializer.data
-            userDict = {}
+            (CancelledList, RescheduleList,
+             NewScheduleList) = participant_seprator(oldData, newData)
 
-            for userid in oldData["participants"]:
-                userDict[userid] = 1
-
-            for userid in newData["participants"]:
-                if userDict.get(userid) == None:
-                    userDict[userid] = 1
-                else:
-                    userDict[userid] += 1
-
-            CancelledList = []
-            RescheduleList = []
-            NewScheduleList = []
-
-            for userid in oldData["participants"]:
-                if userDict[userid] == 1:
-                    CancelledList.append(userid)
-                else:
-                    RescheduleList.append(userid)
-
-            for userid in newData["participants"]:
-                if userDict[userid] == 1:
-                    NewScheduleList.append(userid)
-
-            isSuccessfull = Notifyobj.CancelledInvitation(
+            # For sending emails
+            Notifyobj = Notify()
+            Notifyobj.CancelledInvitation(
                 CancelledList, oldData["startTime"], oldData["endTime"])
-
-            isSuccessfull = Notifyobj.SendRescheduleInvitation(
+            Notifyobj.SendRescheduleInvitation(
                 RescheduleList, newData["startTime"], newData["endTime"],
                 oldData["startTime"], oldData["endTime"])
-
-            isSuccessfull = Notifyobj.SendNewInvitation(
+            Notifyobj.SendNewInvitation(
                 NewScheduleList, newData["startTime"], newData["endTime"])
 
             return Response(serializer.data)
 
+        # revertback changes
         serializer = InterviewDetailsSerializer(data=request.data)
         serializer.save()
 
@@ -132,9 +109,37 @@ def manageInterviewsDetail(request, pk):
         oldData = serializer.data
         Interview.delete()
 
-        # sending notifications
+        # For sending emails
         Notifyobj = Notify()
-        isSuccessfull = Notifyobj.CancelledInvitation(
+        Notifyobj.CancelledInvitation(
             oldData["participants"], oldData["startTime"], oldData["endTime"])
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+def participant_seprator(oldData, newData):
+    userDict = {}
+    for userid in oldData["participants"]:
+        userDict[userid] = 1
+
+    for userid in newData["participants"]:
+        if userDict.get(userid) == None:
+            userDict[userid] = 1
+        else:
+            userDict[userid] += 1
+
+    CancelledList = []
+    RescheduleList = []
+    NewScheduleList = []
+
+    for userid in oldData["participants"]:
+        if userDict[userid] == 1:
+            CancelledList.append(userid)
+        else:
+            RescheduleList.append(userid)
+
+    for userid in newData["participants"]:
+        if userDict[userid] == 1:
+            NewScheduleList.append(userid)
+
+    return (CancelledList, RescheduleList, NewScheduleList)

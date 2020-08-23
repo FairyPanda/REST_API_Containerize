@@ -29,6 +29,7 @@ class Notify:
 
     def SendMail(self, subject, body, participant_emails):
         isSuccessfull = 0
+        print(participant_emails)
         try:
             isSuccessfull = send_mail(
                 subject,
