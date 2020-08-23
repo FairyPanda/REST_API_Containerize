@@ -76,6 +76,7 @@ def manageInterviewsDetail(request, pk):
         serializer = InterviewDetailsSerializer(Interview)
         oldData = serializer.data
         Interview.delete()
+
         serializer = InterviewDetailsSerializer(Interview, data=request.data)
 
         if serializer.is_valid():
@@ -99,8 +100,9 @@ def manageInterviewsDetail(request, pk):
             return Response(serializer.data)
 
         # revertback changes
-        serializer = InterviewDetailsSerializer(data=request.data)
-        serializer.save()
+        newserializer = InterviewDetailsSerializer(data=oldData)
+        if newserializer.is_valid():
+            newserializer.save()
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

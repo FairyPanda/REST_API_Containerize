@@ -1,6 +1,5 @@
 from .models import UserDetails, InterviewDetails
 from rest_framework import serializers
-from rest_framework.exceptions import APIException
 from .validations import validators
 
 
@@ -17,7 +16,7 @@ class InterviewDetailsSerializer(serializers.ModelSerializer):
         validateObj.validateOverlappings()
 
         if validateObj.isvalid() == False:
-            raise APIException(validateObj.getErrorMessage())
+            raise serializers.ValidationError(validateObj.getErrorMessage())
 
         return attrs
 

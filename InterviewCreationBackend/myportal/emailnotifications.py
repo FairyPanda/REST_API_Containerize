@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import UserDetails
+from.modelutils import ModelUitil
 
 
 class Notify:
@@ -72,13 +72,3 @@ class Notify:
             startTime=startTime, endTime=endTime, participants=participants)
 
         return self.SendMail(self.reschedule_subject, reschedule_messagebody, participants)
-
-
-class ModelUitil:
-    def getuserDetailsfromId(self, List):
-        participants = []
-        for userid in List:
-            UserObj = UserDetails.objects.get(pk=userid)
-            participants.append(UserObj.email)
-
-        return participants
