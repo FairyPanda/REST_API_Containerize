@@ -73,29 +73,58 @@ def manageInterviewsDetail(request, pk):
 
     elif request.method == 'PUT':
 
-        oldInterview = Interview
-        oldData = InterviewDetailsSerializer(oldInterview).data
-        oldData["id"] = Interview.id
-        oldInterview.delete()
+        serializer = InterviewDetailsSerializer(Interview)
+        oldData = serializer.data
+        serializer = InterviewDetailsSerializer(Interview, data=request.data)
 
-        serializer = InterviewDetailsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
 
-            sending notifications
-            newInterview = InterviewDetails.objects.get(
-                pk=serializer.data["id"])
+            Notifyobj = Notify(Interview)
 
-            Notifyobj = Notify(newInterview)
+            newData = serializer.data
+            userDict = {}
 
-            isSuccessfull = Notifyobj.SendNewInvitation()
+            for userid in oldData["participants"]:
+                userDict[userid] = 1
+
+            for userid in newData["participants"]:
+                if userDict.get(userid) == None:
+                    userDict[userid] = 1
+                else:
+                    userDict[userid] += 1
+
+            CancelledList = []
+            RescheduleList = []
+            NewScheduleList = []
+
+            for userid in oldData["participants"]:
+                if userDict[userid] == 1:
+                    CancelledList.append(userid)
+                else:
+                    RescheduleList.append(userid)
+
+            for userid in newData["participants"]:
+                if userDict[userid] == 1:
+                    NewScheduleList.append(userid)
+
+            isSuccessfull = Notifyobj.CancelledInvitation_byList(
+                CancelledList, oldData["startTime"], oldData["endTime"])
+
+            print(isSuccessfull)
+
+            isSuccessfull = Notifyobj.SendRescheduleInvitation_byList(
+                RescheduleList, newData["startTime"], newData["endTime"],
+                oldData["startTime"], oldData["endTime"])
+
+            print(isSuccessfull)
+
+            isSuccessfull = Notifyobj.SendNewInvitation_byList(
+                NewScheduleList, newData["startTime"], newData["endTime"])
+
             print(isSuccessfull)
 
             return Response(serializer.data)
-
-        serializer = InterviewDetailsSerializer(data=oldData)
-        serializer.save()
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
