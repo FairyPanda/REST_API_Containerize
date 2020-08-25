@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 
 import InterviewForm from './InterviewForm'
 import InterviewDetails from './InterviewDetails'
+import Errorhandler from './Errorhandler'
 
 import { Redirect } from "react-router-dom";
 
@@ -29,14 +30,18 @@ export class CreatePage extends Component {
 
     buttonFunction(Interview) {
         if (this.state.loading == true) return;
-
         this.setloading(true);
 
         var InterviewObj = new InterviewDetails();
-        InterviewObj.CreateNewSchedule(Interview, (isSuccessfull) => {
-            this.setState({ created: isSuccessfull });
-
+        InterviewObj.CreateNewSchedule(Interview, (response, error) => {
+            var errorhandlerobj = new Errorhandler(error);
+            errorhandlerobj.showalert(null);
             this.setloading(false);
+            if (!error) {
+                console.log(response);
+                alert("Success.. Created schedule with id = " + response.id);
+                this.setState({ created: true });
+            }
         })
     }
 

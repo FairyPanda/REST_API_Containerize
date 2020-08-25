@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import AddParticipants from './AddParticipants'
 import EditParticipant from './EditParticipant'
 import UserDetails from './UserDetails'
+import Errorhandler from './Errorhandler'
 
 
 export class InterviewForm extends Component {
@@ -29,8 +30,11 @@ export class InterviewForm extends Component {
 
     componentDidMount() {
         var UserObj = new UserDetails();
-        UserObj.Getallusers((Users) => {
-            this.setState({ userCache: Users["list"], userDict: Users["Dictionary"] })
+        UserObj.Getallusers((Users, error) => {
+            var errorhandlerobj = new Errorhandler(error);
+            errorhandlerobj.showalert(null);
+            if (!error)
+                this.setState({ userCache: Users["list"], userDict: Users["Dictionary"] })
         });
     }
 
@@ -38,7 +42,7 @@ export class InterviewForm extends Component {
     render() {
         var modifiedbuttonstatement = this.props.buttonStatement;
         if (this.props.loading) {
-            modifiedbuttonstatement = "Loading.. please wait"
+            modifiedbuttonstatement = "Loading.. please wait (sending emails)";
         }
         if (this.props.Interview.startTime != "" && this.state.Interview.startTime == "")
             this.setState({ Interview: this.props.Interview })

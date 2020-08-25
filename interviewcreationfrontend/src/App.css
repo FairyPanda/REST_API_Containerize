@@ -58,6 +58,9 @@ table{
   position: absolute;
   right: 3%;
 }
+th{
+  text-align: center;
+}
 
 td{
   text-align:center;

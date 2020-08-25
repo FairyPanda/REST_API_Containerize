@@ -28,13 +28,13 @@ class validators:
         else:
             self.errorMessage = self.errorMessage + ', ' + message
 
-    def validateOverlappings(self):
+    def validateOverlappings(self, oldDataId=-1):
         # checking overlapping inerviews
         for user in self.participants:
             scheduledInterviews = InterviewDetails.objects.filter(
                 participants=user)
             for interview in scheduledInterviews:
-                if self.checkOverlapping(interview) == False:
+                if oldDataId != interview.id and self.checkOverlapping(interview) == False:
                     self.setvalid(False)
                     self.appendErrorMessage(
                         "User with userId = "+str(user.id)+" has overlapping Interviews")

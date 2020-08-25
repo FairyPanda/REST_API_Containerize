@@ -9,16 +9,37 @@ class InterviewDetailsSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, attrs):
+        self.startTimeData = attrs["startTime"]
+        self.endTTimeData = attrs["endTime"]
+        self.participantsData = attrs["participants"]
+
         validateObj = validators(
-            attrs["startTime"], attrs["endTime"], attrs["participants"])
+            self.startTimeData, self.endTTimeData, self.participantsData)
         validateObj.validateTime()
         validateObj.validateCountofParticipants()
-        validateObj.validateOverlappings()
 
         if validateObj.isvalid() == False:
             raise serializers.ValidationError(validateObj.getErrorMessage())
 
         return attrs
+
+    def checkCreateoverlapping(self):
+        validateObj = validators(
+            self.startTimeData, self.endTTimeData, self.participantsData)
+        validateObj.validateOverlappings()
+
+        if validateObj.isvalid() == False:
+            raise serializers.ValidationError(validateObj.getErrorMessage())
+        return True
+
+    def checkUpdateoverlappings(self, oldDataid):
+        validateObj = validators(
+            self.startTimeData, self.endTTimeData, self.participantsData)
+        validateObj.validateOverlappings(oldDataid)
+
+        if validateObj.isvalid() == False:
+            raise serializers.ValidationError(validateObj.getErrorMessage())
+        return True
 
 
 class UserDetailsSerializer(serializers.ModelSerializer):

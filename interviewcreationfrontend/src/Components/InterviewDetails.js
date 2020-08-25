@@ -12,11 +12,10 @@ export default class InterviewDetails {
                 response.data.map(data => {
                     ScheduledInterviews.push(data);
                 })
-                callback(ScheduledInterviews);
+                callback(ScheduledInterviews, null);
             })
             .catch(function (error) {
-                error = JSON.stringify(error.response.data);
-                alert("Error: \n" + error);
+                callback(null, error);
             })
     }
 
@@ -24,11 +23,10 @@ export default class InterviewDetails {
     GetSchedule(InterviewId, callback) {
         axios.get(process.env.REACT_APP_ManageInterviewsAPI + InterviewId + '/')
             .then(response => {
-                callback(response.data);
+                callback(response.data, null);
             })
             .catch(function (error) {
-                error = JSON.stringify(error.response.data);
-                alert("Error: \n" + error);
+                callback(null, error);
             })
     }
 
@@ -36,12 +34,10 @@ export default class InterviewDetails {
     DeleteSchedule(InterviewId, callback) {
         axios.delete(process.env.REACT_APP_ManageInterviewsAPI + InterviewId + '/')
             .then(response => {
-                alert("Successfuly deleted");
-                callback(true);
+                callback(response.data, null);
             })
             .catch(function (error) {
-                error = JSON.stringify(error.response.data);
-                alert("Error: \n" + error);
+                callback(null, error);
             })
     }
 
@@ -52,29 +48,24 @@ export default class InterviewDetails {
             data: InterviewSchedule
         })
             .then(response => {
-                alert("Successfuly updated");
-                callback(true);
+                callback(response.data, null);
             })
             .catch(function (error) {
-                error = JSON.stringify(error.response.data);
-                alert("Error: \n" + error);
+                callback(null, error);
             })
     }
 
     CreateNewSchedule(InterviewSchedule, callback) {
-        console.log(InterviewSchedule);
         axios({
             method: 'post',
             url: process.env.REACT_APP_ManageInterviewsAPI,
             data: InterviewSchedule
         })
             .then(response => {
-                alert("Successfuly Created with interview ID = " + response.data.id);
-                callback(response.data);
+                callback(response.data, null);
             })
             .catch(function (error) {
-                error = JSON.stringify(error.response.data);
-                alert("Error: \n" + error);
+                callback(null, error);
             })
     }
 

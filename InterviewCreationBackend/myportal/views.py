@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view
 from .emailnotifications import Notify
 import pytz
 import datetime
+from django.http import HttpResponse
 
 # assuming that currently admin users are only accessing the website
 
@@ -46,7 +47,7 @@ def manageInterviewsList(request):
 
     if request.method == 'POST':
         serializer = InterviewDetailsSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid() and serializer.checkCreateoverlapping():
             serializer.save()
             newData = serializer.data
 
@@ -73,17 +74,17 @@ def manageInterviewsDetail(request, pk):
 
     elif request.method == 'PUT':
 
-        serializer = InterviewDetailsSerializer(Interview)
-        oldData = serializer.data
-        Interview.delete()
+        oldserializer = InterviewDetailsSerializer(Interview)
+        oldData = oldserializer.data
 
         serializer = InterviewDetailsSerializer(Interview, data=request.data)
 
-        if serializer.is_valid():
+        if serializer.is_valid() and serializer.checkUpdateoverlappings(oldData['id']):
             serializer.save()
 
-            # for seprating deleted, new and common participants
             newData = serializer.data
+            oldData = oldserializer.data
+
             (CancelledList, RescheduleList,
              NewScheduleList) = participant_seprator(oldData, newData)
 
@@ -98,11 +99,6 @@ def manageInterviewsDetail(request, pk):
                 NewScheduleList, newData["startTime"], newData["endTime"])
 
             return Response(serializer.data)
-
-        # revertback changes
-        newserializer = InterviewDetailsSerializer(data=oldData)
-        if newserializer.is_valid():
-            newserializer.save()
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -145,3 +141,19 @@ def participant_seprator(oldData, newData):
             NewScheduleList.append(userid)
 
     return (CancelledList, RescheduleList, NewScheduleList)
+
+
+@api_view(['GET'])
+def sendnotifications(request, pk):
+    try:
+        Interview = InterviewDetails.objects.get(pk=pk)
+    except InterviewDetails.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = InterviewDetailsSerializer(Interview)
+    data = serializer.data
+    Notifyobj = Notify()
+    Notifyobj.SendNewInvitation(data['participants'],
+                                data['startTime'], data['endTime'])
+
+    return HttpResponse("Done")
