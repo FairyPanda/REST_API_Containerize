@@ -1,0 +1,35 @@
+os: linux
+dist: bionic
+language: bash
+
+git:
+    depth: 3
+
+services:
+    - docker
+
+branches:
+    only:
+        - master
+        - dev
+
+stages:
+    - name: push_docker
+
+before_install:
+    - echo "Dependencies pre-installation commands ..."
+
+install:
+    - echo "Dependencies Installation commands ..."
+
+before_script:
+    - bash scripts/build_docker_image.sh
+
+jobs:
+    include:
+        - name: "Push to Docker Registry"
+          stage: push_docker
+          script: bash scripts/push_to_docker.sh
+after_script:
+    - echo "At Last, final commands ..."
+
