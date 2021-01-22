@@ -14,7 +14,9 @@ branches:
         - dev
 
 stages:
+    - name: test
     - name: push_docker
+    - name: deploy
 
 before_install:
     - echo "Dependencies pre-installation commands ..."
@@ -27,9 +29,29 @@ before_script:
 
 jobs:
     include:
+        - name: "Testing"
+          stage: test
+          script:
+              - echo "Docker run commands ..."
+              - echo "Test Run Commands ..."
+              
         - name: "Push to Docker Registry"
           stage: push_docker
           script: bash scripts/push_to_docker.sh
+          
+        - name: "Deploy"
+          stage: deploy
+          before_script: skip
+          script: echo "Preparing to Deploy ..." 
+          before_deploy: echo "Pre-Deploy Commands ..."
+          deploy:
+              provider: script
+              script: echo "bash scripts/deploy.sh"
+              on:
+                  branch:
+                      - master
+                      - dev
+          after_deploy: echo "Post-Deploy Commands ..."
 after_script:
     - echo "At Last, final commands ..."
 
