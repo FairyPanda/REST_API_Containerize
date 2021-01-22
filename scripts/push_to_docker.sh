@@ -13,13 +13,13 @@ if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
             TAG_NAME="dev-latest"
         fi
 
-        docker tag "${DOCKER_IMAGE_NAME}" "vibhu4agarwal/${DOCKER_IMAGE_NAME}:${TAG_NAME}"
-        docker push "vibhu4agarwal/${DOCKER_IMAGE_NAME}:${TAG_NAME}"
+        docker tag "${DOCKER_IMAGE_NAME}" "mitaali09/${DOCKER_IMAGE_NAME}:${TAG_NAME}"
+        docker push "mitaali09/${DOCKER_IMAGE_NAME}:${TAG_NAME}"
 
         if [ "${TRAVIS_BRANCH}" = "master" ]; then
             SHA=$(git rev-parse --short HEAD)
-            docker tag "${DOCKER_IMAGE_NAME}" "vibhu4agarwal/${DOCKER_IMAGE_NAME}:${SHA}"
-            docker push "vibhu4agarwal/${DOCKER_IMAGE_NAME}:${SHA}"
+            docker tag "${DOCKER_IMAGE_NAME}" "mitaali09/${DOCKER_IMAGE_NAME}:${SHA}"
+            docker push "mitaali09/${DOCKER_IMAGE_NAME}:${SHA}"
         fi
 
 
