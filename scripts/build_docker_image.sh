@@ -7,3 +7,5 @@ if [ "${TRAVIS_BRANCH}" = "master" ] || [ "${TRAVIS_BRANCH}" = "dev" ]; then
     docker images
 fi
 
+# By this we are building a docker image
+# Where Docker image name is->  test_fairypanda_restapi
