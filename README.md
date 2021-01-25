@@ -2,13 +2,13 @@
 
 This is a portal for scheduling Interview between candidates
 
-Back-end Docker Image: https://hub.docker.com/r/vibhu4agarwal/test_rest_api_interview_creation
+Back-end Docker Image: https://hub.docker.com/repository/docker/mitaali09/test_fairypanda_restapi
 
 
 Deployed frontend : https://afternoon-escarpment-58999.herokuapp.com/
 =>single paged react app
 
-Deployed backend: https://blooming-beyond-14533.herokuapp.com/ 
+Deployed backend: Yet to be deployed
 =>Django server
 
 There are 5 rest api endpoints
