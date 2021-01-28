@@ -5,7 +5,9 @@ This is a portal for scheduling Interview between candidates
 Back-end Docker Image: https://hub.docker.com/repository/docker/mitaali09/test_fairypanda_restapi
 
 
-Deployed frontend : https://afternoon-escarpment-58999.herokuapp.com/
+
+Deployed frontend : Yet to be deployed
+
 =>single paged react app
 
 Deployed backend: Yet to be deployed
