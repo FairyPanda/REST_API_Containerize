@@ -17,3 +17,4 @@ class InterviewDetails(models.Model):
     startTime = models.DateTimeField(blank=False)
     endTime = models.DateTimeField(blank=False)
     participants = models.ManyToManyField(UserDetails)
+#     array of users
