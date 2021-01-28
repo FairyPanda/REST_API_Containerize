@@ -6,7 +6,7 @@ Back-end Docker Image: https://hub.docker.com/repository/docker/mitaali09/test_f
 
 
 
-Deployed frontend : Yet to be deployed
+Deployed frontend : https://afternoon-escarpment-58999.herokuapp.com/
 
 =>single paged react app
 
