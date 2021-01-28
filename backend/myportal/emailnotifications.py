@@ -8,14 +8,14 @@ class Notify:
 
         self.new_schedule_subject = ''' New Interview Invitation! '''
         self.new_schedule_messagebody = ''' 
-            Your are Invited to the a Interview.
+            Your are Invited to the Interview.
             Timings: {startTime} till {endTime}.
             Participants: {participants}
         '''
 
         self.reschedule_subject = ''' Interview Rescheduled! '''
         self.reschedule_messagebody = '''
-            Your Interview is reshuduled.
+            Your Interview is rescheduled.
             old timing: {oldstartTime} till {oldendTime}
             New timings:  {startTime} till {endTime}.
             Participants: {participants}
